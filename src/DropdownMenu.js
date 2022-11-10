@@ -1,18 +1,18 @@
 import {useEffect, useState} from "react";
 
-const DropdownMenu = ({ options, isDeleted }) => {
+const DropdownMenu = ({availableOptions, isDeleted}) => {
   const [isDropDownOpen, setDropdownOpen] = useState(false);
+  // It would be better to handle elements as {key,value}, but I didn't have the time to rewrite
   const [isActive, setIsActive] = useState("");
+  const [query, setQuery] = useState("");
   const [selectedOption, setSelectedOption] = useState("Choose an option");
-  const [availableOptions, setAvailableOptions] = useState(options);
 
   useEffect(() => {
-    setAvailableOptions(options);
-    if(isDeleted) {
+    if (isDeleted) {
       setIsActive("");
       setSelectedOption("Select an option");
     }
-  }, [options, isDeleted])
+  }, [availableOptions, isDeleted])
 
   const handleClick = (key, name) => {
     setIsActive(name);
@@ -26,7 +26,7 @@ const DropdownMenu = ({ options, isDeleted }) => {
     setDropdownOpen(true);
   };
 
-  const handleClassAssign = (name) => {
+  const extractActiveClassName = (name) => {
     if (isActive === "") {
       return "";
     }
@@ -34,65 +34,63 @@ const DropdownMenu = ({ options, isDeleted }) => {
     return isActive === name ? "is-active" : "not-active";
   };
 
-  const onSearch = (query) => {
-    setDropdownOpen(true);
-
-    setAvailableOptions(options.filter((e) => e.toLowerCase().includes(query.toLowerCase())));
+  let options = availableOptions || [];
+  if (query) {
+    options = options.filter((e) => e.toLowerCase().includes(query.toLowerCase()));
   }
 
   return (
-    <div className="dropdown-menu">
-      <div className="search">
-        <label>Search options</label>
-        <input type="text" onChange={(e) => onSearch(e.target.value)}/>
-      </div>
-      <div
-        className={isDropDownOpen ? "dropdown-button focus" : "dropdown-button"}
-        onClick={() => setDropdownOpen(!isDropDownOpen)}
-      >
-        {selectedOption}
+      <div className="dropdown-menu">
+        <div className="search">
+          <label>Search options</label>
+          <input type="text" onChange={(e) => setQuery(e.target.value)}/>
+        </div>
         <div
-          onClick={isActive ? (e) => handleDelete(e) : null}
-          className={isActive ? "delete" : ""}
-        ></div>
-      </div>
-      {options.length === 0 ? (
-        <ul
-          className={isDropDownOpen ? "is-open" : ""}
-          style={{ height: "auto" }}
+            className={isDropDownOpen ? "dropdown-button focus" : "dropdown-button"}
+            onClick={() => setDropdownOpen(!isDropDownOpen)}
         >
-          <li>Add options</li>
-        </ul>
-      ) : (
-        <ul
-          className={isDropDownOpen ? "is-open" : ""}
-          style={
-            availableOptions.length <= 5
-              ? { height: "auto", overflow: "auto" }
-              : { height: "200px" }
-          }
-        >
-          <li style={availableOptions.length !== 0 ? {"display": "none"} : {}}>There are no search results</li>
-          {availableOptions.map((element, index) => (
-            <li
-              onClick={() => handleClick(index, element)}
-              key={index}
-              className={handleClassAssign(element)}
+          {selectedOption}
+          <div
+              onClick={isActive ? (e) => handleDelete(e) : null}
+              className={isActive ? "delete" : ""}
+          ></div>
+        </div>
+        {options.length === 0 ? (
+            <ul
+                className={isDropDownOpen ? "is-open" : ""}
+                style={{height: "auto"}}
             >
-              <label className="checkbox-container">
-                {" "}
-                {element}
-                <input
-                  type="checkbox"
-                  checked={isActive === element && isActive !== ""}
-                />
-                <span className="checkmark"></span>
-              </label>
-            </li>
-          ))}
-        </ul>
-      )}
-    </div>
+              <li>{!query ? "Add options" : "There are no search results"}</li>
+            </ul>
+        ) : (
+            <ul
+                className={isDropDownOpen ? "is-open" : ""}
+                style={
+                  options.length <= 5
+                      ? {height: "auto", overflow: "auto"}
+                      : {height: "200px"}
+                }
+            >
+              {options.map((element, index) => (
+                  <li
+                      onClick={() => handleClick(index, element)}
+                      key={index}
+                      className={extractActiveClassName(element)}
+                  >
+                    <label className="checkbox-container">
+                      {" "}
+                      {element}
+                      <input
+                          type="checkbox"
+                          checked={isActive === element && isActive !== ""}
+                      />
+                      <span className="checkmark"></span>
+                    </label>
+                  </li>
+              ))}
+            </ul>
+        )}
+      </div>
   );
 };
 

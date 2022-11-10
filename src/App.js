@@ -33,7 +33,7 @@ const App = () => {
       <div className="main-container">
         <div>
           <h3>Choose an option</h3>
-          <DropdownMenu options={options} isDeleted={isDeleted}/>
+          <DropdownMenu availableOptions={options} isDeleted={isDeleted}/>
         </div>
         <OptionsForm
           handleChange={(e) => setSelectedOption(e.target.value)}
