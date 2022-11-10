@@ -1,0 +1,17 @@
+.main-container {
+    background-color: #F8F8F8;
+    width: 95vw;
+    margin: 24px auto;
+    font-family: $default-font;
+    padding: 24px;
+    position: relative;
+    display: flex;
+    grid-gap: 100px;
+    height: 50vh;
+
+    h3 {
+        margin-bottom: 24px;
+    }
+
+    @import "components";
+}

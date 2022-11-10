@@ -1,0 +1,76 @@
+.dropdown-menu {
+  width: 350px;
+
+  .dropdown-button {
+    background-color: #fff;
+    padding: 12px;
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+    cursor: pointer;
+    transition: all .3s;
+
+    div {
+      position: relative;
+      width: 20px;
+      height: 20px;
+
+      &:after {
+        content: "+";
+        color: $primary;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 20px;
+        height: 20px;
+        background-color: #FFEBEB;
+        border-radius: 50%;
+        transition: all .3s;
+      }
+    }
+
+    .focus {
+      &:after {
+        content: "-";
+        color: $primary;
+        background-color: #FFF;
+      }
+    }
+
+    .delete {
+      &:after {
+        content: "x";
+        color: $primary;
+        background-color: #FFEBEB;
+      }
+    }
+  }
+
+  .is-open {
+    opacity: 1;
+  }
+
+  ul {
+    height: 0;
+    opacity: 0;
+    background-color: #fff;
+    margin-top: 4px;
+    border: solid $secondary 1px;
+    transition: all .3s;
+    overflow-y: scroll;
+
+    @import "../components/list-item";
+  }
+
+  .search {
+    padding: 20px 0;
+    display: flex;
+    flex-direction: column;
+    grid-gap: 8px;
+
+    input {
+      padding: 6px;
+      border: solid 0.5px;
+    }
+  }
+}
