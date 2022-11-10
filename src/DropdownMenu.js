@@ -46,13 +46,13 @@ const DropdownMenu = ({availableOptions, isDeleted}) => {
           <input type="text" onChange={(e) => setQuery(e.target.value)}/>
         </div>
         <div
-            className={isDropDownOpen ? "dropdown-button focus" : "dropdown-button"}
+            className={isDropDownOpen ? "dropdown-button is-dropdown-open" : "dropdown-button"}
             onClick={() => setDropdownOpen(!isDropDownOpen)}
         >
           {selectedOption}
           <div
               onClick={isActive ? (e) => handleDelete(e) : null}
-              className={isActive ? "delete" : ""}
+              className={isActive && isDropDownOpen ? "delete" : (!isActive && isDropDownOpen ? "focus" : "")}
           ></div>
         </div>
         {options.length === 0 ? (
