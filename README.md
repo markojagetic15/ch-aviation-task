@@ -1,10 +1,10 @@
 ## Getting Started with Create React App
 
-In the root of the project run npm install
+In the root of the project run `yarn`
 
 ## Running the project
 
-Run the project in the root of the folder with `npm start`
+Run the project in the root of the folder with `yarn start`
 
 ## Adding options to the dropdown
 
