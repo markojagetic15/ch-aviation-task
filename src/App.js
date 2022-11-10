@@ -17,6 +17,7 @@ const App = () => {
     serError(false);
     setOptions((options) => [...options, selectedOption]);
     e.target.reset();
+    setSelectedOption("");
   };
 
   const handleDelete = (index) => {
